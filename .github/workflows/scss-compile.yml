@@ -1,7 +1,7 @@
 name: SCSS Compile
 
 on:
-  pull_request:
+  push:
     branches: 
      - dev
     paths:
@@ -26,10 +26,10 @@ jobs:
       - name: Commit SCSS
         run: |
           git status
-          git add ./web/themes/coupa_8/css/coupa_8.css
+          git add ./web/css/coupa_8.css
           git commit -m 'refactor: Compile SCSS'
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.PRIVATE_GIT_TOKEN }}
-          branch: ${{github.event.pull_request.head.ref}}
+          branch: ${{github.ref}}
