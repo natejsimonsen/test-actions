@@ -21,7 +21,7 @@ jobs:
       - name: Compile SCSS
         uses: gha-utilities/sass-build@v0.3.0
         with:
-          source: web/themes/scss/coupa_8.scss
+          source: web/scss/coupa_8.scss
           destination: web/css/coupa_8.css 
       - name: Commit SCSS
         run: |
