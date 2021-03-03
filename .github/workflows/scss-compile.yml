@@ -1,0 +1,35 @@
+name: SCSS Compile
+
+on:
+  pull_request:
+    branches: 
+     - dev
+    paths:
+      - web/scss/*
+
+jobs:
+  compile-scss:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{github.event.pull_request.head.ref}}
+      - name: Git Config
+        run: |
+          git config --local user.email "me@github.com"
+          git config --local user.name "github-actions[bot]"
+      - name: Compile SCSS
+        uses: gha-utilities/sass-build@v0.3.0
+        with:
+          source: web/themes/coupa_8/scss/coupa_8.scss
+          destination: web/themes/coupa_8/css/coupa_8.css 
+      - name: Commit SCSS
+        run: |
+          git status
+          git add ./web/themes/coupa_8/css/coupa_8.css
+          git commit -m 'refactor: Compile SCSS'
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.PRIVATE_GIT_TOKEN }}
+          branch: ${{github.event.pull_request.head.ref}}
